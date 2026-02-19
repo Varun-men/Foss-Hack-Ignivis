@@ -206,7 +206,5 @@ python app.py
 Hackathon Prototype – Active Development
 
 👩‍💻 Author
-Varun Kumar
-Divya Vashishtha 
-Yash Ahuja
-Nishant
+
+Divya Sharma
