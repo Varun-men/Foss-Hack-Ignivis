@@ -102,7 +102,6 @@ Risk Levels:
 ```
 Webcam → Feature Extraction → ML Stress Model → Physiological Score
 Weather API → Environmental Processing → Environmental Score
-
                  ↓
           Hybrid Risk Engine
                  ↓
@@ -186,20 +185,18 @@ Unlike traditional weather apps, this system:
 ## ⚙️ Installation
 
 ```bash
-git clone https://github.com/Varun-men/heat-stress-ai.git
-cd heat-stress-ai
-pip install -r requirements.txt
-python app.py
+git clone https://github.com/Varun-men/Foss-Hack-Ignivis.git
+cd Foss-Hack-Ignivis
 ```
 
 ---
 
 ## 👨‍💻 Author
 
-Varun Kumar
-Divya Vashishtha
-Yash Ahuja
-Nishant Verma
+Varun Kumar ,
+Divya Vashishtha ,
+Yash Ahuja ,
+Nishant Verma .
 B.Tech Computer Science Engineering
 
 ---
