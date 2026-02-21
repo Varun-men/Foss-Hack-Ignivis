@@ -1,37 +1,49 @@
-[🌡️ AI-Based Real-Time Heat Stress & Environmental Risk Detection System
-📌 Overview
+🌡️ AI-Powered Real-Time Heat Stress & Environmental Risk Detection System
 
-This project is an AI-powered system that detects real-time human heat stress using computer vision and combines it with environmental data to predict personalized heat exhaustion risk.
+An Intelligent Climate-Health AI Platform that detects human heat stress in real time using Computer Vision and predicts personalized heatstroke risk by combining physiological and environmental intelligence.
 
-Unlike traditional weather applications that only show temperature or AQI, this system analyzes both:
+🚀 Overview
 
-Internal physiological stress (via webcam)
+Heatwaves are becoming more frequent and dangerous, especially in countries like India, where millions of outdoor workers are exposed to extreme temperatures daily.
 
-External environmental stress (via weather APIs)
+Current weather apps only provide general environmental data such as temperature or AQI, but they do not assess individual physiological stress or predict real-time heat exhaustion risk.
 
-It then generates a hybrid risk score and provides preventive recommendations to reduce heat-related illnesses.
+This project introduces an innovative AI system that:
 
-🚨 Problem Statement
+✔ Detects real human heat stress using webcam analysis
+✔ Integrates environmental conditions dynamically
+✔ Predicts personalized heat risk levels in real time
+✔ Provides actionable preventive recommendations
 
-With increasing heatwaves due to climate change, especially in countries like India, heatstroke and dehydration cases are rising among:
+🎯 Problem Statement
 
-Construction workers
+Extreme heat conditions cause:
 
-Farmers
+Heatstroke
 
-Traffic police
+Dehydration
 
-Outdoor delivery personnel
+Worker fatigue
 
-Elderly individuals
+Reduced productivity
 
-Existing platforms such as AccuWeather only provide general weather data and do not assess individual physiological stress levels.
+Increased hospital admissions
 
-There is a lack of personalized, real-time heat risk prediction systems.
+Existing solutions fail because they:
+
+❌ Only show weather data
+❌ Ignore individual physiological conditions
+❌ Do not provide real-time personalized alerts
+
+There is currently no system that combines human physiological analysis with environmental intelligence to predict heat stress risk dynamically.
 
 💡 Proposed Solution
 
-This system integrates:
+This system combines Computer Vision + Machine Learning + Environmental Intelligence to create a hybrid risk prediction engine.
+
+🧠 Core Concept
+
+The system evaluates heat risk using two parallel intelligence layers:
 
 1️⃣ Physiological Stress Detection (Computer Vision)
 
@@ -41,15 +53,15 @@ OpenCV
 
 MediaPipe
 
-Deep Learning (CNN/ML Model)
+Deep Learning Models
 
-It analyzes:
-
-Facial redness
+The system analyzes real-time facial features such as:
 
 Eye fatigue (blink rate & eye aspect ratio)
 
-Skin brightness variation
+Facial redness intensity
+
+Skin brightness variation (sweat reflection proxy)
 
 Micro facial stress cues
 
@@ -57,9 +69,9 @@ Output:
 
 Physiological Stress Score (0–100)
 
-2️⃣ Environmental Intelligence
+2️⃣ Environmental Intelligence Layer
 
-Using live API data:
+The system fetches live environmental data including:
 
 Temperature
 
@@ -67,164 +79,125 @@ Humidity
 
 UV Index
 
-AQI
+Air Quality Index (AQI)
 
-It calculates:
+Then calculates:
 
 Heat Index
+
+Environmental Stress Score
+
+Output:
 
 Environmental Stress Score (0–100)
 
 3️⃣ Hybrid AI Risk Engine
 
-Final Risk Score is computed as:
+The final risk score is computed using a weighted hybrid model:
 
-Final Risk =
+Final Heat Risk =
+
 0.5 × Physiological Score + 0.5 × Environmental Score
 
-Risk Categories:
+Risk Levels:
 
 🟢 Safe
 
-🟡 Moderate
+🟡 Moderate Risk
 
-🔴 High
+🔴 High Risk
 
 🔥 Key Features
 
-Real-time webcam-based heat stress detection
+✨ Real-time webcam-based heat stress detection
+✨ Hybrid AI-driven risk prediction engine
+✨ Live environmental data integration
+✨ Personalized preventive recommendations
+✨ Voice-based alert system
+✨ Risk history monitoring dashboard
 
-Hybrid AI-based risk prediction
+🏗️ System Architecture
+Webcam Input → Feature Extraction → ML Stress Model
+                              ↓
+                   Physiological Score
 
-Personalized safety recommendations
+Weather API → Environmental Processing → Environmental Score
 
-Voice alert system
-
-Risk history tracking
-
-Clean dashboard interface
-
-🛠️ Tech Stack
-
-Frontend
-
-Streamlit / React
-
-Backend
-
-FastAPI
-
-AI & Computer Vision
-
-Python
-
-OpenCV
-
-MediaPipe
-
-PyTorch / TensorFlow
-
-Scikit-learn
-
-Data
-
-Weather API Integration
-
-⚙️ System Architecture
-
-Webcam → Feature Extraction → ML Stress Model
-Weather API → Environmental Score Model
-↓
-Hybrid Risk Engine
-↓
-Decision Engine
-↓
-Dashboard + Voice Output
-
+                    ↓
+           Hybrid Risk Prediction Engine
+                    ↓
+           Decision Intelligence Module
+                    ↓
+         Dashboard + Alerts + Voice Output
 📊 Example Workflow
+Step 1 — Face Scan
 
-User opens the application.
+User sits in front of camera for 10 seconds.
 
-Camera scans face for 10 seconds.
+System detects:
 
-System calculates Physiological Stress Score.
+Fatigue level
 
-Weather API fetches environmental data.
+Facial redness
 
-Hybrid model predicts overall risk.
+Eye strain
 
-App displays and announces safety recommendations.
+Physiological Score → 72
 
-Example Output:
+Step 2 — Environmental Data
 
-Physiological Score: 72
-Environmental Score: 78
-Final Risk: HIGH
+API fetches live data:
 
-Recommendation:
+Temperature: 42°C
+Humidity: 60%
+AQI: 180
 
-Take a 20-minute break
+Environmental Score → 78
+
+Step 3 — Risk Prediction
+
+Final Risk = 75 (High Risk)
+
+Step 4 — Smart Recommendation
+
+The system suggests:
+
+Take a 20-minute rest break
 
 Drink 500ml water
 
 Avoid sun exposure between 12–4 PM
 
-🌍 Impact
+🛠️ Technology Stack
+👁️ Computer Vision
 
-This system can:
+OpenCV
 
-Reduce heatstroke incidents
+MediaPipe
 
-Improve occupational safety
+🤖 Machine Learning
 
-Assist smart city health monitoring
+Python
 
-Support climate-health research
+Scikit-learn
 
-It can be scaled for industrial, healthcare, and government applications.
+PyTorch / TensorFlow
 
-🚀 Future Enhancements
+🌐 Backend
 
-Mobile deployment
+FastAPI
 
-Wearable device integration
+🎨 Frontend
 
-Hospital heat case prediction
+Streamlit / React
 
-AI Agent-based continuous monitoring
+📡 Data Integration
 
-Multilingual voice alerts
+Weather API
 
-📁 Installation
-git clone https://github.com/your-username/heat-stress-ai.git
-cd heat-stress-ai
-pip install -r requirements.txt
-python app.py
+🌍 Impact & Applications
 
-📌 Project Status
-
-Hackathon Prototype – Active Development
-
-👩‍💻 Author
-
-Divya Sharma
-
-I🌡️ AI-Based Real-Time Heat Stress & Environmental Risk Detection System
-📌 Overview
-
-This project is an AI-powered system that detects real-time human heat stress using computer vision and combines it with environmental data to predict personalized heat exhaustion risk.
-
-Unlike traditional weather applications that only show temperature or AQI, this system analyzes both:
-
-Internal physiological stress (via webcam)
-
-External environmental stress (via weather APIs)
-
-It then generates a hybrid risk score and provides preventive recommendations to reduce heat-related illnesses.
-
-🚨 Problem Statement
-
-With increasing heatwaves due to climate change, especially in countries like India, heatstroke and dehydration cases are rising among:
+This system can significantly improve safety for:
 
 Construction workers
 
@@ -232,192 +205,55 @@ Farmers
 
 Traffic police
 
-Outdoor delivery personnel
+Delivery personnel
 
 Elderly individuals
 
-Existing platforms such as AccuWeather only provide general weather data and do not assess individual physiological stress levels.
+It can also be deployed for:
 
-There is a lack of personalized, real-time heat risk prediction systems.
+Smart city monitoring
 
-💡 Proposed Solution
+Occupational safety systems
 
-This system integrates:
+Climate health analytics
 
-1️⃣ Physiological Stress Detection (Computer Vision)
+🏆 Innovation & Uniqueness
 
-Using:
+Unlike traditional weather applications, this system:
 
-OpenCV
+✅ Detects actual human physiological heat stress
+✅ Combines internal body signals with external environment data
+✅ Provides real-time personalized risk prediction
+✅ Acts as an AI-based preventive health assistant
 
-MediaPipe
+This makes it a first-of-its-kind hybrid climate-health intelligence platform.
 
-Deep Learning (CNN/ML Model)
-
-It analyzes:
-
-Facial redness
-
-Eye fatigue (blink rate & eye aspect ratio)
-
-Skin brightness variation
-
-Micro facial stress cues
-
-Output:
-
-Physiological Stress Score (0–100)
-
-2️⃣ Environmental Intelligence
-
-Using live API data:
-
-Temperature
-
-Humidity
-
-UV Index
-
-AQI
-
-It calculates:
-
-Heat Index
-
-Environmental Stress Score (0–100)
-
-3️⃣ Hybrid AI Risk Engine
-
-Final Risk Score is computed as:
-
-Final Risk =
-0.5 × Physiological Score + 0.5 × Environmental Score
-
-Risk Categories:
-
-🟢 Safe
-
-🟡 Moderate
-
-🔴 High
-
-🔥 Key Features
-
-Real-time webcam-based heat stress detection
-
-Hybrid AI-based risk prediction
-
-Personalized safety recommendations
-
-Voice alert system
-
-Risk history tracking
-
-Clean dashboard interface
-
-🛠️ Tech Stack
-
-Frontend
-
-Streamlit / React
-
-Backend
-
-FastAPI
-
-AI & Computer Vision
-
-Python
-
-OpenCV
-
-MediaPipe
-
-PyTorch / TensorFlow
-
-Scikit-learn
-
-Data
-
-Weather API Integration
-
-⚙️ System Architecture
-
-Webcam → Feature Extraction → ML Stress Model
-Weather API → Environmental Score Model
-↓
-Hybrid Risk Engine
-↓
-Decision Engine
-↓
-Dashboard + Voice Output
-
-📊 Example Workflow
-
-User opens the application.
-
-Camera scans face for 10 seconds.
-
-System calculates Physiological Stress Score.
-
-Weather API fetches environmental data.
-
-Hybrid model predicts overall risk.
-
-App displays and announces safety recommendations.
-
-Example Output:
-
-Physiological Score: 72
-Environmental Score: 78
-Final Risk: HIGH
-
-Recommendation:
-
-Take a 20-minute break
-
-Drink 500ml water
-
-Avoid sun exposure between 12–4 PM
-
-🌍 Impact
-
-This system can:
-
-Reduce heatstroke incidents
-
-Improve occupational safety
-
-Assist smart city health monitoring
-
-Support climate-health research
-
-It can be scaled for industrial, healthcare, and government applications.
-
-🚀 Future Enhancements
+🔮 Future Enhancements
 
 Mobile deployment
 
 Wearable device integration
 
-Hospital heat case prediction
-
-AI Agent-based continuous monitoring
+AI agent-based continuous monitoring
 
 Multilingual voice alerts
 
-📁 Installation
+Hospital heat case prediction
+
+⚙️ Installation & Setup
 git clone https://github.com/your-username/heat-stress-ai.git
 cd heat-stress-ai
 pip install -r requirements.txt
 python app.py
-
 📌 Project Status
 
-Hackathon Prototype – Active Development](https://github.com/Varun-men/Foss-Hack-Ignivis)
+🚧 Hackathon Prototype — Under Active Development
 
-👩‍💻 Author
+👨‍💻 Author
 
-Divya Sharma
+Varun Kumar
+B.Tech Computer Science Engineering
 
-I
+⭐ Acknowledgements
+
+This project aims to leverage AI for climate resilience, public health safety, and sustainable smart-city development.
