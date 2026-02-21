@@ -1,4 +1,4 @@
-🌡️ AI-Based Real-Time Heat Stress & Environmental Risk Detection System
+[🌡️ AI-Based Real-Time Heat Stress & Environmental Risk Detection System
 📌 Overview
 
 This project is an AI-powered system that detects real-time human heat stress using computer vision and combines it with environmental data to predict personalized heat exhaustion risk.
@@ -414,7 +414,7 @@ python app.py
 
 📌 Project Status
 
-Hackathon Prototype – Active Development
+Hackathon Prototype – Active Development](https://github.com/Varun-men/Foss-Hack-Ignivis)
 
 👩‍💻 Author
 
