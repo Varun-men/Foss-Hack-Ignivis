@@ -191,12 +191,29 @@ cd Foss-Hack-Ignivis
 
 ---
 
-## 👨‍💻 Author
+## 📜 License
+
+This project is licensed under the MIT License.
+
+The MIT License is a permissive open-source license that allows anyone to:
+
+* Use the software for personal or commercial purposes
+* Modify and distribute the code
+* Create derivative works
+
+As long as proper credit is given to the original authors.
+This license encourages open collaboration, innovation, and academic use, making it ideal for hackathons and research-based projects.
+See the LICENSE file for complete details.
+
+---
+
+## 👨‍💻 Contributors
 
 Varun Kumar ,
 Divya Vashishtha ,
 Yash Ahuja ,
 Nishant Verma .
+
 B.Tech Computer Science Engineering
 
 ---
