@@ -81,6 +81,9 @@ def generate_ai_insights(data):
     Ensure NO markdown backticks like ```json wrapper in the output string. Output only raw JSON.
     """
     
+    if model is None:
+        return fallback_insights(data)
+        
     try:
         response = model.generate_content(prompt)
         text = response.text.strip()

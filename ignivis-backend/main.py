@@ -25,10 +25,10 @@ download_skin_model()
 # Systematically load all ML Models statically into Server State Memory
 print("[Ignivis State] Loading ML Models into RAM...")
 MODELS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "models"))
-env_model = joblib.load(os.path.join(MODELS_DIR, "environment_model.joblib"))
-phys_model = joblib.load(os.path.join(MODELS_DIR, "heat_stress_model.joblib"))
-face_model = joblib.load(os.path.join(MODELS_DIR, "face_temp_fatigue_heatmap_model.joblib"))
-skin_model = joblib.load(os.path.join(MODELS_DIR, "stress_skin_model.joblib"))
+env_model = joblib.load(os.path.join(MODELS_DIR, "environment_model.joblib"), mmap_mode='r')
+phys_model = joblib.load(os.path.join(MODELS_DIR, "heat_stress_model.joblib"), mmap_mode='r')
+face_model = joblib.load(os.path.join(MODELS_DIR, "face_temp_fatigue_heatmap_model.joblib"), mmap_mode='r')
+skin_model = joblib.load(os.path.join(MODELS_DIR, "stress_skin_model.joblib"), mmap_mode='r')
 print("[Ignivis State] All Models Activated.")
 
 app = FastAPI(title="Ignivis API - AI Heat Stress Intelligence System")
@@ -90,16 +90,16 @@ class EnvironmentRequest(BaseModel):
 
 class PhysiologicalRequest(BaseModel):
     body_temp: float = 37.0
-    heart_rate: int = 75
+    heart_rate: float = 75.0
 
 class FinalScoreRequest(BaseModel):
     env: float = 0.0
     phys: float = 0.0
     face: float = 0.0
     skin: float = 0.0
-    sleep: int = 7
+    sleep: float = 7.0
     water: float = 2.0
-    age: int = 30
+    age: float = 30.0
     gender: str = "unknown"
 
 class AiInsightsRequest(BaseModel):
@@ -108,9 +108,9 @@ class AiInsightsRequest(BaseModel):
     phys_score: float = 0.0
     face_score: float = 0.0
     skin_score: float = 0.0
-    sleep: int = 7
+    sleep: float = 7.0
     water: float = 2.0
-    age: int = 30
+    age: float = 30.0
     gender: str = "unknown"
 
 
