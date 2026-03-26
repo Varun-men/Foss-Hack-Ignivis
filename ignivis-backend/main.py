@@ -90,16 +90,16 @@ class EnvironmentRequest(BaseModel):
 
 class PhysiologicalRequest(BaseModel):
     body_temp: float = 37.0
-    heart_rate: int = 75
+    heart_rate: float = 75.0
 
 class FinalScoreRequest(BaseModel):
     env: float = 0.0
     phys: float = 0.0
     face: float = 0.0
     skin: float = 0.0
-    sleep: int = 7
+    sleep: float = 7.0
     water: float = 2.0
-    age: int = 30
+    age: float = 30.0
     gender: str = "unknown"
 
 class AiInsightsRequest(BaseModel):
@@ -108,9 +108,9 @@ class AiInsightsRequest(BaseModel):
     phys_score: float = 0.0
     face_score: float = 0.0
     skin_score: float = 0.0
-    sleep: int = 7
+    sleep: float = 7.0
     water: float = 2.0
-    age: int = 30
+    age: float = 30.0
     gender: str = "unknown"
 
 
