@@ -171,59 +171,69 @@ export default function DashboardPage() {
       <div className="max-w-6xl mx-auto space-y-6 w-full min-w-0">
 
         {/* ── Row 1: Gauge + Sub-Scores ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
           {/* Compact Gauge Card */}
-          <GlassCard className="flex flex-col items-center justify-center py-8 relative">
+          <GlassCard className="flex flex-col items-center justify-center py-6 relative">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
-            <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-widest mb-4">Overall Risk Index</h2>
+            <h2 className="text-[10px] font-semibold text-foreground/60 uppercase tracking-widest mb-3">Risk Index</h2>
 
             <MetricGauge
               value={results.final_score}
               max={100}
-              size={180}
-              strokeWidth={14}
+              size={140}
+              strokeWidth={12}
               label={results.risk_category}
-              className="mb-4"
+              className="mb-3"
             />
 
-            <div className={`flex items-center gap-2 font-bold text-base ${getRiskColor(results.risk_category || "")}`}>
-              {results.risk_category?.toLowerCase() === "high" && <ShieldAlert className="w-5 h-5 animate-pulse" />}
-              {results.risk_category?.toLowerCase() === "moderate" && <AlertCircle className="w-5 h-5" />}
-              {results.risk_category?.toLowerCase() === "safe" && <CheckCircle2 className="w-5 h-5" />}
+            <div className={`flex items-center justify-center gap-1.5 font-bold text-sm ${getRiskColor(results.risk_category || "")}`}>
+              {results.risk_category?.toLowerCase() === "high" && <ShieldAlert className="w-4 h-4 animate-pulse" />}
+              {results.risk_category?.toLowerCase() === "moderate" && <AlertCircle className="w-4 h-4" />}
+              {results.risk_category?.toLowerCase() === "safe" && <CheckCircle2 className="w-4 h-4" />}
               {(results.risk_category || "UNKNOWN").toUpperCase()} RISK
             </div>
           </GlassCard>
 
-          {/* Sub-scores Grid — 3 compact cards inside a column */}
-          <div className="grid grid-cols-3 gap-3">
-            {/* Environment */}
-            <GlassCard className="p-3 flex flex-col items-center text-center justify-center">
-              <MapPin className="text-orange-500 w-5 h-5 mb-1" />
-              <div className={`text-2xl font-bold ${scores.env < 30 ? "text-green-400" : scores.env < 60 ? "text-yellow-400" : "text-red-400"}`}>
-                {Math.round(scores.env)}
-              </div>
-              <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-wider font-semibold leading-tight">Environment</div>
-            </GlassCard>
+          {/* Environment */}
+          <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
+            <MapPin className="text-orange-500 w-6 h-6 mb-2" />
+            <div className={`text-3xl font-bold ${scores.env < 30 ? "text-green-400" : scores.env < 60 ? "text-yellow-400" : "text-red-400"}`}>
+              {Math.round(scores.env)}
+            </div>
+            <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Environment</div>
+            <div className="mt-2 text-[10px] text-foreground/40 leading-relaxed">Heat index from Weather API</div>
+          </GlassCard>
 
-            {/* Physiological */}
-            <GlassCard className="p-3 flex flex-col items-center text-center justify-center">
-              <HeartPulse className="text-red-500 w-5 h-5 mb-1" />
-              <div className={`text-2xl font-bold ${scores.phys < 30 ? "text-green-400" : scores.phys < 60 ? "text-yellow-400" : "text-red-400"}`}>
-                {Math.round(scores.phys)}
-              </div>
-              <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-wider font-semibold leading-tight">Physiology</div>
-            </GlassCard>
+          {/* Physiological */}
+          <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
+            <HeartPulse className="text-red-500 w-6 h-6 mb-2" />
+            <div className={`text-3xl font-bold ${scores.phys < 30 ? "text-green-400" : scores.phys < 60 ? "text-yellow-400" : "text-red-400"}`}>
+              {Math.round(scores.phys)}
+            </div>
+            <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Physiology</div>
+            <div className="mt-2 text-[10px] text-foreground/40 leading-relaxed">Heart rate &amp; body temp</div>
+          </GlassCard>
 
-            {/* Vision & Skin */}
-            <GlassCard className="p-3 flex flex-col items-center text-center justify-center">
-              <ScanFace className="text-accent w-5 h-5 mb-1" />
-              <div className={`text-2xl font-bold ${scores.face + scores.skin < 30 ? "text-green-400" : scores.face + scores.skin < 60 ? "text-yellow-400" : "text-red-400"}`}>
-                {Math.round(scores.face + scores.skin)}
+          {/* Vision & Skin — with breakdown */}
+          <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
+            <ScanFace className="text-accent w-6 h-6 mb-2" />
+            <div className={`text-3xl font-bold ${scores.face + scores.skin < 30 ? "text-green-400" : scores.face + scores.skin < 60 ? "text-yellow-400" : "text-red-400"}`}>
+              {Math.round(scores.face + scores.skin)}
+            </div>
+            <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Vision &amp; Skin</div>
+
+            <div className="mt-2 w-full grid grid-cols-2 gap-1 text-[10px] text-foreground/60 border-t border-white/5 pt-2">
+              <div className="flex flex-col">
+                <span className="uppercase opacity-70">Fatigue</span>
+                <span className={`font-bold text-sm ${scores.face < 15 ? "text-green-400" : scores.face < 30 ? "text-yellow-400" : "text-red-400"}`}>{Math.round(scores.face)}</span>
               </div>
-              <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-wider font-semibold leading-tight">Vision&nbsp;&amp;&nbsp;Skin</div>
-            </GlassCard>
-          </div>
+              <div className="flex flex-col border-l border-white/5 pl-1">
+                <span className="uppercase opacity-70">Redness</span>
+                <span className={`font-bold text-sm ${scores.skin < 15 ? "text-green-400" : scores.skin < 30 ? "text-yellow-400" : "text-red-400"}`}>{Math.round(scores.skin)}</span>
+              </div>
+            </div>
+          </GlassCard>
         </div>
 
         {/* ── Row 2: AI Summary ── */}
