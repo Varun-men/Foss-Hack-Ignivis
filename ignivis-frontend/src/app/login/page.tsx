@@ -2,17 +2,19 @@
 
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { GlassCard } from "@/components/ui/GlassCard"
 import { Button } from "@/components/ui/Button"
 import { GradientText } from "@/components/ui/GradientText"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Mail, Lock, ArrowRight, ShieldAlert, CheckCircle2 } from "lucide-react"
 import { API_URL } from "@/lib/constants"
+import { LoginSchema, type LoginInput } from "@/lib/validations"
 
 export default function LoginPage() {
   const router = useRouter()
-  // @ts-ignore
-  const [params, setParams] = useState<any>(null)
+  const [params, setParams] = useState<URLSearchParams | null>(null)
 
   useEffect(() => {
     // Simple way to avoid next/navigation searchParams sync bug in some Next versions
@@ -21,12 +23,26 @@ export default function LoginPage() {
 
   const isRegistered = params?.get("registered") === "true"
 
-  const [formData, setFormData] = useState({ email: "", password: "" })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  })
+
+  const onSubmit = async (data: LoginInput) => {
+    console.log("[Ignivis Debug] Login Attempt Started");
+    console.log("[Ignivis Debug] API URL:", API_URL);
+    console.log("[Ignivis Debug] Submission Data (username hidden):", { email: data.email });
+    
     setLoading(true)
     setError(null)
 
@@ -35,26 +51,33 @@ export default function LoginPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // The backend expects UserCreate shape for simplicity
-        body: JSON.stringify({ email: formData.email, password: formData.password, username: "login_attempt" })
-      })
+        body: JSON.stringify({ ...data, username: "login_attempt" })
+      }).catch(err => {
+        console.error("[Ignivis Debug] Fetch Error:", err);
+        throw new Error("Connection failed. Please check if the Backend URL is correct and the server is running.");
+      });
 
-      const data = await res.json()
+      const result = await res.json()
+      console.log("[Ignivis Debug] Response Status:", res.status);
 
       if (!res.ok) {
-        throw new Error(data.detail || "Failed to login")
+        throw new Error(result.detail || "Incorrect email or password");
       }
 
-      // Store token
-      localStorage.setItem("ignivis_token", data.access_token)
-      // Trigger global event for navbar sync if needed, or just redirect
+      console.log("[Ignivis Debug] Login Successful, storing token...");
+      localStorage.setItem("ignivis_token", result.access_token)
       window.dispatchEvent(new Event("auth_change"))
-
       router.push("/analysis")
     } catch (err: any) {
+      console.error("[Ignivis Debug] Login Exception:", err.message);
       setError(err.message)
     } finally {
       setLoading(false)
     }
+  }
+
+  const onInvalid = (errors: any) => {
+    console.log("[Ignivis Debug] Zod Validation Failed:", errors);
   }
 
   return (
@@ -84,20 +107,19 @@ export default function LoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-1 text-foreground/80">Email</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
                 <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={e => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-accent/50"
+                  type="text"
+                  {...register("email")}
+                  className={`w-full bg-white/5 border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 transition-colors lowercase`}
                   placeholder="agent@example.com"
                 />
               </div>
+              {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
             </div>
 
             <div>
@@ -106,13 +128,12 @@ export default function LoginPage() {
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
                 <input
                   type="password"
-                  required
-                  value={formData.password}
-                  onChange={e => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-accent/50"
+                  {...register("password")}
+                  className={`w-full bg-white/5 border ${errors.password ? 'border-red-500/50' : 'border-white/10'} rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 transition-colors`}
                   placeholder="••••••••"
                 />
               </div>
+              {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
             </div>
 
             <Button variant="secondary" type="submit" className="w-full mt-6" isLoading={loading}>

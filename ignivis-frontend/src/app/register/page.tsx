@@ -2,21 +2,35 @@
 
 import React, { useState } from "react"
 import { motion } from "framer-motion"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { GlassCard } from "@/components/ui/GlassCard"
 import { Button } from "@/components/ui/Button"
 import { GradientText } from "@/components/ui/GradientText"
 import { useRouter } from "next/navigation"
 import { Mail, Lock, User, ArrowRight, ShieldAlert } from "lucide-react"
 import { API_URL } from "@/lib/constants"
+import { RegisterSchema, type RegisterInput } from "@/lib/validations"
 
 export default function RegisterPage() {
   const router = useRouter()
-  const [formData, setFormData] = useState({ username: "", email: "", password: "" })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+    },
+  })
+
+  const onSubmit = async (data: RegisterInput) => {
     setLoading(true)
     setError(null)
 
@@ -24,16 +38,15 @@ export default function RegisterPage() {
       const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(data)
       })
 
-      const data = await res.json()
+      const result = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.detail || "Failed to register")
+        throw new Error(result.detail || "Failed to register")
       }
 
-      // Successfully registered, now login
       router.push("/login?registered=true")
     } catch (err: any) {
       setError(err.message)
@@ -64,20 +77,19 @@ export default function RegisterPage() {
             </div>
           )}
 
-          <form onSubmit={handleRegister} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-1 text-foreground/80">Username</label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
                 <input
                   type="text"
-                  required
-                  value={formData.username}
-                  onChange={e => setFormData({ ...formData, username: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  {...register("username")}
+                  className={`w-full bg-white/5 border ${errors.username ? 'border-red-500/50' : 'border-white/10'} rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors`}
                   placeholder="agent_007"
                 />
               </div>
+              {errors.username && <p className="text-red-400 text-xs mt-1">{errors.username.message}</p>}
             </div>
 
             <div>
@@ -85,14 +97,13 @@ export default function RegisterPage() {
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
                 <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={e => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  type="text"
+                  {...register("email")}
+                  className={`w-full bg-white/5 border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors lowercase`}
                   placeholder="agent@example.com"
                 />
               </div>
+              {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
             </div>
 
             <div>
@@ -101,13 +112,12 @@ export default function RegisterPage() {
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
                 <input
                   type="password"
-                  required
-                  value={formData.password}
-                  onChange={e => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  {...register("password")}
+                  className={`w-full bg-white/5 border ${errors.password ? 'border-red-500/50' : 'border-white/10'} rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors`}
                   placeholder="••••••••"
                 />
               </div>
+              {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
             </div>
 
             <Button type="submit" className="w-full mt-6" isLoading={loading}>
