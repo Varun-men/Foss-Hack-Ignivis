@@ -190,7 +190,7 @@ export default function DashboardPage() {
             size={240}
             strokeWidth={18}
             label={results.risk_category}
-            className="mb-6"
+            className="mb-6 scale-90 sm:scale-100"
           />
 
           <div className={`mt-2 flex items-center gap-2 font-bold text-lg ${getRiskColor(results.risk_category || "")}`}>
@@ -239,7 +239,7 @@ export default function DashboardPage() {
           </GlassCard>
 
           {/* Sub-scores Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <GlassCard className="p-4 flex flex-col items-center text-center justify-start">
               <MapPin className="text-orange-500 w-6 h-6 mb-2" />
               <div className={`text-3xl font-bold ${scores.env < 30 ? "text-green-400" : scores.env < 60 ? "text-yellow-400" : "text-red-400"}`}>
@@ -281,7 +281,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Recommendations & Action Plan */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
         <GlassCard>
           <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
@@ -339,8 +339,8 @@ export default function DashboardPage() {
             <Activity className="text-green-400 w-6 h-6" />
             Historical Heat Risk Trend
           </h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          <div className="overflow-x-auto pb-4 scrollbar-thin">
+            <table className="w-full text-left border-collapse min-w-[650px]">
               <thead>
                 <tr className="border-b border-white/10 text-foreground/60 text-sm">
                   <th className="pb-3 px-4">Date</th>
