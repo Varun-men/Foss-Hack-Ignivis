@@ -39,6 +39,10 @@ export default function LoginPage() {
   })
 
   const onSubmit = async (data: LoginInput) => {
+    console.log("[Ignivis Debug] Login Attempt Started");
+    console.log("[Ignivis Debug] API URL:", API_URL);
+    console.log("[Ignivis Debug] Submission Data (username hidden):", { email: data.email });
+    
     setLoading(true)
     setError(null)
 
@@ -48,22 +52,32 @@ export default function LoginPage() {
         headers: { "Content-Type": "application/json" },
         // The backend expects UserCreate shape for simplicity
         body: JSON.stringify({ ...data, username: "login_attempt" })
-      })
+      }).catch(err => {
+        console.error("[Ignivis Debug] Fetch Error:", err);
+        throw new Error("Connection failed. Please check if the Backend URL is correct and the server is running.");
+      });
 
       const result = await res.json()
+      console.log("[Ignivis Debug] Response Status:", res.status);
 
       if (!res.ok) {
-        throw new Error(result.detail || "Failed to login")
+        throw new Error(result.detail || "Incorrect email or password");
       }
 
+      console.log("[Ignivis Debug] Login Successful, storing token...");
       localStorage.setItem("ignivis_token", result.access_token)
       window.dispatchEvent(new Event("auth_change"))
       router.push("/analysis")
     } catch (err: any) {
+      console.error("[Ignivis Debug] Login Exception:", err.message);
       setError(err.message)
     } finally {
       setLoading(false)
     }
+  }
+
+  const onInvalid = (errors: any) => {
+    console.log("[Ignivis Debug] Zod Validation Failed:", errors);
   }
 
   return (
@@ -93,15 +107,15 @@ export default function LoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-1 text-foreground/80">Email</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
                 <input
-                  type="email"
+                  type="text"
                   {...register("email")}
-                  className={`w-full bg-white/5 border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 transition-colors`}
+                  className={`w-full bg-white/5 border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 transition-colors lowercase`}
                   placeholder="agent@example.com"
                 />
               </div>
