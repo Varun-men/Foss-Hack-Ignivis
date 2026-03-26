@@ -38,7 +38,7 @@ export function HowItWorks() {
             </motion.p>
           </div>
 
-          <div className="md:w-1/2 relative w-full border-l border-white/10 pl-8 space-y-12">
+          <div className="md:w-1/2 relative w-full border-l border-white/10 md:pl-8 pl-6 space-y-12">
             {steps.map((step, idx) => (
               <motion.div 
                 key={step.num}
@@ -49,7 +49,7 @@ export function HowItWorks() {
                 className="relative"
               >
                 {/* Timeline Dot */}
-                <div className="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-background border-4 border-primary z-10"></div>
+                <div className="absolute -left-[33px] md:-left-[41px] top-1 w-5 h-5 rounded-full bg-background border-4 border-primary z-10"></div>
                 
                 <h3 className="text-2xl font-bold flex items-center gap-3">
                   <span className="text-primary/70 font-mono text-xl">{step.num}</span> 

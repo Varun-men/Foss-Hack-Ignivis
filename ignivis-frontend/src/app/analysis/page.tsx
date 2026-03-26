@@ -244,7 +244,7 @@ export default function AnalysisPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 md:px-6 relative overflow-hidden flex flex-col items-center justify-center">
+    <div className="min-h-screen pt-20 md:pt-24 pb-12 px-4 md:px-6 relative overflow-hidden flex flex-col items-center justify-center">
       {/* Background elements */}
       <div className="absolute top-0 w-full h-full bg-grid-white/[0.02] bg-[size:32px]"></div>
 
@@ -257,7 +257,7 @@ export default function AnalysisPage() {
               <div key={i} className={`h-2 flex-1 rounded-full ${step >= i ? 'bg-primary shadow-[0_0_10px_rgba(255,69,0,0.5)]' : 'bg-white/10'}`} />
             ))}
           </div>
-          <div className="flex items-center justify-center gap-4 bg-white/5 border border-white/10 px-6 py-3 rounded-full backdrop-blur-md">
+          <div className="flex items-center justify-center gap-3 md:gap-4 bg-white/5 border border-white/10 px-4 md:px-6 py-2 md:py-3 rounded-full backdrop-blur-md">
             {renderStepIcon()}
             <span className="font-semibold text-lg tracking-wider uppercase text-white/90">
               Step {step} of 4
@@ -274,7 +274,7 @@ export default function AnalysisPage() {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <GlassCard className="p-8 md:p-10">
+            <GlassCard className="p-6 md:p-10">
 
               {/* STEP 1: USER DETAILS */}
               {step === 1 && (
@@ -378,7 +378,7 @@ export default function AnalysisPage() {
                     <p className="text-foreground/60 text-sm">Using deep learning to detect visual markers of exhaustion.</p>
                   </div>
 
-                  <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 bg-black aspect-video flex items-center justify-center auto-cols-auto">
+                  <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 bg-black aspect-video flex items-center justify-center">
                     {formData.faceImageBase64 ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={formData.faceImageBase64} alt="Captured face" className="w-full h-full object-cover opacity-80" />
