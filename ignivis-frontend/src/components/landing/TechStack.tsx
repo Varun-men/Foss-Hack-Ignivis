@@ -57,7 +57,7 @@ const techStack = [
 
 export function TechStack() {
   return (
-    <section className="pt-32 pb-16 px-6 relative z-10 w-full">
+    <section className="pt-32 pb-16 px-6 relative z-10 w-full overflow-hidden">
       <div className="max-w-6xl mx-auto flex flex-col items-center">
         
         {/* Animated Heading */}
