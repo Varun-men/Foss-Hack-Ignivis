@@ -174,7 +174,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen pt-20 md:pt-24 pb-12 px-4 md:px-6 max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen pt-24 pb-12 px-4 md:px-6 max-w-7xl mx-auto space-y-8">
 
       {/* Header & Main Score Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -339,8 +339,8 @@ export default function DashboardPage() {
             <Activity className="text-green-400 w-6 h-6" />
             Historical Heat Risk Trend
           </h3>
-          <div className="overflow-x-auto pb-4">
-            <table className="w-full text-left border-collapse min-w-[600px]">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-white/10 text-foreground/60 text-sm">
                   <th className="pb-3 px-4">Date</th>

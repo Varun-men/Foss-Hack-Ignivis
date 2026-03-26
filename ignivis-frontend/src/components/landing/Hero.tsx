@@ -36,7 +36,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.1] mb-6"
+          className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.1] mb-6"
         >
           Predict Heat Stress <br className="hidden md:block" />
           <GradientText>Before It Hits You</GradientText>
@@ -56,16 +56,16 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+          className="flex flex-col sm:flex-row gap-4"
         >
-          <Button size="lg" className="group text-lg w-full sm:w-auto" onClick={() => router.push('/analysis')}>
+          <Button size="lg" className="group text-lg" onClick={() => router.push('/analysis')}>
             Start Analysis
             <ShieldAlert className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
           <Button 
             variant="outline" 
             size="lg" 
-            className="text-lg w-full sm:w-auto"
+            className="text-lg"
             onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
           >
             See How it Works

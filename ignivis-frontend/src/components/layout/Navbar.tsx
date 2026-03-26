@@ -1,17 +1,15 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion"
+import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { Button } from "@/components/ui/Button"
 import { useRouter } from "next/navigation"
-import { Menu, X } from "lucide-react"
 
 export function Navbar() {
   const router = useRouter()
   const { scrollY } = useScroll()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const checkAuth = () => {
     setIsAuthenticated(!!localStorage.getItem("ignivis_token"))
@@ -51,8 +49,8 @@ export function Navbar() {
           <span className="text-xl md:text-2xl font-black tracking-widest text-white">IGNIVIS</span>
         </div>
 
-        {/* Auth Buttons - Desktop */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* Auth Buttons */}
+        <div className="flex items-center gap-3 md:gap-4">
           {isAuthenticated ? (
             <>
               <Button variant="ghost" className="text-foreground/80 hover:text-white" onClick={() => router.push('/dashboard')}>
@@ -64,7 +62,7 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button variant="ghost" className="text-foreground/80 hover:text-white" onClick={() => router.push('/login')}>
+              <Button variant="ghost" className="text-foreground/80 hover:text-white hidden sm:flex" onClick={() => router.push('/login')}>
                 Login
               </Button>
               <Button variant="primary" size="sm" onClick={() => router.push('/register')}>
@@ -74,79 +72,7 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <div className="md:hidden flex items-center">
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-white p-2 focus:outline-none"
-          >
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-
       </div>
-
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background/95 backdrop-blur-xl border-b border-white/10 overflow-hidden"
-          >
-            <div className="flex flex-col p-6 gap-4">
-              {isAuthenticated ? (
-                <>
-                  <Button
-                    variant="ghost"
-                    className="justify-start text-lg"
-                    onClick={() => {
-                      router.push('/dashboard')
-                      setIsMobileMenuOpen(false)
-                    }}
-                  >
-                    Dashboard
-                  </Button>
-                  <Button
-                    variant="primary"
-                    className="justify-center"
-                    onClick={() => {
-                      handleLogout()
-                      setIsMobileMenuOpen(false)
-                    }}
-                  >
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    variant="ghost"
-                    className="justify-start text-lg"
-                    onClick={() => {
-                      router.push('/login')
-                      setIsMobileMenuOpen(false)
-                    }}
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    variant="primary"
-                    className="justify-center"
-                    onClick={() => {
-                      router.push('/register')
-                      setIsMobileMenuOpen(false)
-                    }}
-                  >
-                    Register
-                  </Button>
-                </>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.header>
   )
 }
