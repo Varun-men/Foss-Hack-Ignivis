@@ -61,6 +61,10 @@ export default function LoginPage() {
       console.log("[Ignivis Debug] Response Status:", res.status);
 
       if (!res.ok) {
+        // Handle FastAPI validation errors (list of objects)
+        if (typeof result.detail === "object" && Array.isArray(result.detail)) {
+          throw new Error(result.detail[0]?.msg || "Invalid input data");
+        }
         throw new Error(result.detail || "Incorrect email or password");
       }
 

@@ -7,7 +7,7 @@ export const RegisterSchema = z.object({
 });
 
 export const LoginSchema = z.object({
-  email: z.string().min(3, "Email or Username must be at least 3 characters").trim().toLowerCase(),
+  email: z.string().email("Invalid email address").trim().toLowerCase(),
   password: z.string().min(1, "Password is required"),
 });
 
