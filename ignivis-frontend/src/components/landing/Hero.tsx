@@ -11,7 +11,7 @@ export function Hero() {
   const router = useRouter()
 
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center p-6 text-center">
+    <section className="relative min-h-[90vh] flex flex-col items-center justify-center p-6 text-center overflow-hidden">
 
 
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] animate-pulse-slow"></div>

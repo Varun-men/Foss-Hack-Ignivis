@@ -1,15 +1,17 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion, useScroll, useMotionValueEvent } from "framer-motion"
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/Button"
 import { useRouter } from "next/navigation"
+import { Menu, X, LogIn } from "lucide-react"
 
 export function Navbar() {
   const router = useRouter()
   const { scrollY } = useScroll()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const checkAuth = () => {
     setIsAuthenticated(!!localStorage.getItem("ignivis_token"))
@@ -38,19 +40,18 @@ export function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/80 backdrop-blur-md border-b border-white/10 shadow-lg" : "bg-transparent bg-gradient-to-b from-background/80 to-transparent"
         }`}
     >
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-
+      <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <div
-          className="flex items-center gap-2 cursor-pointer group"
+          className="flex items-center gap-2 cursor-pointer group shrink-0"
           onClick={() => router.push('/')}
         >
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-orange-500 shadow-[0_0_15px_rgba(255,69,0,0.5)] group-hover:scale-110 transition-transform"></div>
           <span className="text-xl md:text-2xl font-black tracking-widest text-white">IGNIVIS</span>
         </div>
 
-        {/* Auth Buttons */}
-        <div className="flex items-center gap-3 md:gap-4">
+        {/* Auth Buttons - Desktop */}
+        <div className="hidden md:flex items-center gap-4">
           {isAuthenticated ? (
             <>
               <Button variant="ghost" className="text-foreground/80 hover:text-white" onClick={() => router.push('/dashboard')}>
@@ -62,7 +63,7 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button variant="ghost" className="text-foreground/80 hover:text-white hidden sm:flex" onClick={() => router.push('/login')}>
+              <Button variant="ghost" className="text-foreground/80 hover:text-white" onClick={() => router.push('/login')}>
                 Login
               </Button>
               <Button variant="primary" size="sm" onClick={() => router.push('/register')}>
@@ -72,7 +73,89 @@ export function Navbar() {
           )}
         </div>
 
+        {/* Mobile Menu Toggle & Login Icon */}
+        <div className="md:hidden flex items-center gap-2">
+          {!isAuthenticated && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-foreground/80 p-2"
+              onClick={() => router.push('/login')}
+            >
+              <LogIn size={20} />
+            </Button>
+          )}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-white p-2 focus:outline-none hover:bg-white/5 rounded-lg transition-colors"
+          >
+            {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
+
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-background/95 backdrop-blur-xl border-b border-white/10 overflow-hidden"
+          >
+            <div className="flex flex-col p-6 gap-4">
+              {isAuthenticated ? (
+                <>
+                  <Button
+                    variant="ghost"
+                    className="justify-start text-lg h-12"
+                    onClick={() => {
+                      router.push('/dashboard')
+                      setIsMobileMenuOpen(false)
+                    }}
+                  >
+                    Dashboard
+                  </Button>
+                  <Button
+                    variant="primary"
+                    className="justify-center h-12"
+                    onClick={() => {
+                      handleLogout()
+                      setIsMobileMenuOpen(false)
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="ghost"
+                    className="justify-start text-lg h-12"
+                    onClick={() => {
+                      router.push('/login')
+                      setIsMobileMenuOpen(false)
+                    }}
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    variant="primary"
+                    className="justify-center h-12"
+                    onClick={() => {
+                      router.push('/register')
+                      setIsMobileMenuOpen(false)
+                    }}
+                  >
+                    Register
+                  </Button>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   )
 }

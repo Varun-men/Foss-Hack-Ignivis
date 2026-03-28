@@ -8,16 +8,9 @@ import { Button } from "@/components/ui/Button"
 import { useRouter } from "next/navigation"
 import {
   Activity,
-  Thermometer,
-  Wind,
   Droplets,
   MapPin,
-  Clock,
-  Calendar,
-  AlertTriangle,
   BrainCircuit,
-  ChevronRight,
-  Home,
   ShieldAlert,
   AlertCircle,
   CheckCircle2,
@@ -174,204 +167,204 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 md:px-6 max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen pt-24 pb-12 px-4 md:px-6 overflow-x-hidden">
+      <div className="max-w-6xl mx-auto space-y-6 w-full min-w-0">
 
-      {/* Header & Main Score Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* ── Row 1: Gauge + Sub-Scores ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-        {/* Metric Card */}
-        <GlassCard className="col-span-1 flex flex-col items-center justify-center py-10 relative">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
-          <h2 className="text-lg font-semibold text-foreground/60 uppercase tracking-widest mb-6">Overall Risk Index</h2>
+          {/* Compact Gauge Card */}
+          <GlassCard className="flex flex-col items-center justify-center py-6 relative">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+            <h2 className="text-[10px] font-semibold text-foreground/60 uppercase tracking-widest mb-3">Risk Index</h2>
 
-          <MetricGauge
-            value={results.final_score}
-            max={100}
-            size={240}
-            strokeWidth={18}
-            label={results.risk_category}
-            className="mb-6"
-          />
+            <MetricGauge
+              value={results.final_score}
+              max={100}
+              size={140}
+              strokeWidth={12}
+              label={results.risk_category}
+              className="mb-3"
+            />
 
-          <div className={`mt-2 flex items-center gap-2 font-bold text-lg ${getRiskColor(results.risk_category || "")}`}>
-            {results.risk_category?.toLowerCase() === "high" && <ShieldAlert className="w-6 h-6 animate-pulse" />}
-            {results.risk_category?.toLowerCase() === "moderate" && <AlertCircle className="w-6 h-6" />}
-            {results.risk_category?.toLowerCase() === "safe" && <CheckCircle2 className="w-6 h-6" />}
-            {(results.risk_category || "UNKNOWN").toUpperCase()} RISK
-          </div>
-        </GlassCard>
-
-        {/* AI Summary and Alerts */}
-        <div className="col-span-1 lg:col-span-2 space-y-6 flex flex-col">
-          <GlassCard className="flex-1">
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <BrainCircuit className="text-purple-500 w-6 h-6" />
-              AI Risk Analysis & Summary
-            </h3>
-            <p className="text-lg leading-relaxed text-foreground/80 mb-6">
-              {results.summary}
-            </p>
-
-            {results.root_cause && (
-              <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 mb-6">
-                <h4 className="font-bold text-purple-400 mb-2 flex items-center gap-2">
-                  <BrainCircuit className="w-5 h-5" /> Root Cause Identified:
-                </h4>
-                <p className="text-foreground/80 italic">{results.root_cause}</p>
-              </div>
-            )}
-
-            {results.alerts.length > 0 && (
-              <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 space-y-3">
-                <h4 className="font-bold text-red-400 flex items-center gap-2">
-                  <ShieldAlert className="w-5 h-5" /> Critical Alerts
-                </h4>
-                <ul className="space-y-2">
-                  {results.alerts.map((alert, i) => (
-                    <li key={i} className="flex items-start gap-2 text-red-200/80">
-                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 shrink-0"></span>
-                      {alert}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div className={`flex items-center justify-center gap-1.5 font-bold text-sm ${getRiskColor(results.risk_category || "")}`}>
+              {results.risk_category?.toLowerCase() === "high" && <ShieldAlert className="w-4 h-4 animate-pulse" />}
+              {results.risk_category?.toLowerCase() === "moderate" && <AlertCircle className="w-4 h-4" />}
+              {results.risk_category?.toLowerCase() === "safe" && <CheckCircle2 className="w-4 h-4" />}
+              {(results.risk_category || "UNKNOWN").toUpperCase()} RISK
+            </div>
           </GlassCard>
 
-          {/* Sub-scores Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <GlassCard className="p-4 flex flex-col items-center text-center justify-start">
-              <MapPin className="text-orange-500 w-6 h-6 mb-2" />
-              <div className={`text-3xl font-bold ${scores.env < 30 ? "text-green-400" : scores.env < 60 ? "text-yellow-400" : "text-red-400"}`}>
-                {Math.round(scores.env)}
-              </div>
-              <div className="text-xs text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Environment Score</div>
-              <div className="mt-3 text-[10px] text-foreground/40 px-2 leading-relaxed">External heat index based on Weather API UV and Temperature data.</div>
-            </GlassCard>
+          {/* Environment */}
+          <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
+            <MapPin className="text-orange-500 w-6 h-6 mb-2" />
+            <div className={`text-3xl font-bold ${scores.env < 30 ? "text-green-400" : scores.env < 60 ? "text-yellow-400" : "text-red-400"}`}>
+              {Math.round(scores.env)}
+            </div>
+            <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Environment</div>
+            <div className="mt-2 text-[10px] text-foreground/40 leading-relaxed">Heat index from Weather API</div>
+          </GlassCard>
 
-            <GlassCard className="p-4 flex flex-col items-center text-center justify-start">
-              <HeartPulse className="text-red-500 w-6 h-6 mb-2" />
-              <div className={`text-3xl font-bold ${scores.phys < 30 ? "text-green-400" : scores.phys < 60 ? "text-yellow-400" : "text-red-400"}`}>
-                {Math.round(scores.phys)}
-              </div>
-              <div className="text-xs text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Physiological Score</div>
-              <div className="mt-3 text-[10px] text-foreground/40 px-2 leading-relaxed">Internal organ heat strain based on Heart Rate and core Body Temp.</div>
-            </GlassCard>
+          {/* Physiological */}
+          <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
+            <HeartPulse className="text-red-500 w-6 h-6 mb-2" />
+            <div className={`text-3xl font-bold ${scores.phys < 30 ? "text-green-400" : scores.phys < 60 ? "text-yellow-400" : "text-red-400"}`}>
+              {Math.round(scores.phys)}
+            </div>
+            <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Physiology</div>
+            <div className="mt-2 text-[10px] text-foreground/40 leading-relaxed">Heart rate &amp; body temp</div>
+          </GlassCard>
 
-            <GlassCard className="p-4 flex flex-col items-center text-center justify-start">
-              <ScanFace className="text-accent w-6 h-6 mb-2" />
-              <div className={`text-3xl font-bold ${scores.face + scores.skin < 30 ? "text-green-400" : scores.face + scores.skin < 60 ? "text-yellow-400" : "text-red-400"}`}>
-                {Math.round(scores.face + scores.skin)}
-              </div>
-              <div className="text-xs text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Vision & Skin Score</div>
+          {/* Vision & Skin — with breakdown */}
+          <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
+            <ScanFace className="text-accent w-6 h-6 mb-2" />
+            <div className={`text-3xl font-bold ${scores.face + scores.skin < 30 ? "text-green-400" : scores.face + scores.skin < 60 ? "text-yellow-400" : "text-red-400"}`}>
+              {Math.round(scores.face + scores.skin)}
+            </div>
+            <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Vision &amp; Skin</div>
 
-              <div className="mt-3 w-full grid grid-cols-2 gap-2 text-[10px] text-foreground/60 border-t border-white/5 pt-3">
-                <div className="flex flex-col">
-                  <span className="uppercase opacity-70 mb-1">Optical Fatigue</span>
-                  <span className={`font-bold text-sm ${scores.face < 15 ? "text-green-400" : scores.face < 30 ? "text-yellow-400" : "text-red-400"}`}>{Math.round(scores.face)}</span>
-                </div>
-                <div className="flex flex-col border-l border-white/5 pl-2">
-                  <span className="uppercase opacity-70 mb-1">Thermal Redness</span>
-                  <span className={`font-bold text-sm ${scores.skin < 15 ? "text-green-400" : scores.skin < 30 ? "text-yellow-400" : "text-red-400"}`}>{Math.round(scores.skin)}</span>
-                </div>
+            <div className="mt-2 w-full grid grid-cols-2 gap-1 text-[10px] text-foreground/60 border-t border-white/5 pt-2">
+              <div className="flex flex-col">
+                <span className="uppercase opacity-70">Fatigue</span>
+                <span className={`font-bold text-sm ${scores.face < 15 ? "text-green-400" : scores.face < 30 ? "text-yellow-400" : "text-red-400"}`}>{Math.round(scores.face)}</span>
               </div>
-            </GlassCard>
-          </div>
+              <div className="flex flex-col border-l border-white/5 pl-1">
+                <span className="uppercase opacity-70">Redness</span>
+                <span className={`font-bold text-sm ${scores.skin < 15 ? "text-green-400" : scores.skin < 30 ? "text-yellow-400" : "text-red-400"}`}>{Math.round(scores.skin)}</span>
+              </div>
+            </div>
+          </GlassCard>
         </div>
-      </div>
 
-      {/* Recommendations & Action Plan */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
+        {/* ── Row 2: AI Summary ── */}
         <GlassCard>
-          <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <Droplets className="text-cyan-400 w-6 h-6" />
-            Immediate Recommendations
+          <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
+            <BrainCircuit className="text-purple-500 w-5 h-5 shrink-0" />
+            AI Risk Analysis
           </h3>
-          <ul className="space-y-4">
-            {results.recommendations.map((rec, idx) => (
-              <motion.li
-                key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + (idx * 0.1) }}
-                className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5"
-              >
-                <div className="p-2 rounded-full bg-cyan-500/20 text-cyan-400">
-                  <CheckCircle2 className="w-5 h-5" />
-                </div>
-                <span className="text-foreground/80">{rec}</span>
-              </motion.li>
-            ))}
-          </ul>
-        </GlassCard>
+          <p className="text-sm md:text-base leading-relaxed text-foreground/80 mb-4">
+            {results.summary}
+          </p>
 
-        <GlassCard className="relative overflow-hidden">
-          <div className="absolute right-0 top-0 w-32 h-32 bg-primary/10 rounded-full blur-[50px]"></div>
-          <h3 className="text-xl font-bold mb-6 flex items-center gap-2 relative z-10">
-            <CloudLightning className="text-yellow-400 w-6 h-6" />
-            Timeline Action Plan
-          </h3>
+          {results.root_cause && (
+            <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-3 mb-4">
+              <h4 className="font-bold text-purple-400 mb-1 text-sm flex items-center gap-2">
+                <BrainCircuit className="w-4 h-4 shrink-0" /> Root Cause:
+              </h4>
+              <p className="text-foreground/80 italic text-sm">{results.root_cause}</p>
+            </div>
+          )}
 
-          <div className="relative border-l-2 border-white/10 ml-4 space-y-8 z-10">
-            {results.action_plan.map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + (idx * 0.2) }}
-                className="relative pl-6"
-              >
-                <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-background border-2 border-yellow-500"></div>
-                <h4 className="font-bold text-yellow-400 text-sm tracking-wide uppercase">{item.time}</h4>
-                <p className="text-foreground/70 mt-1">{item.action}</p>
-              </motion.div>
-            ))}
-          </div>
-        </GlassCard>
-
-      </div>
-
-      {/* Historical Progress */}
-      {history.length > 0 && (
-        <GlassCard className="mt-8">
-          <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <Activity className="text-green-400 w-6 h-6" />
-            Historical Heat Risk Trend
-          </h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-white/10 text-foreground/60 text-sm">
-                  <th className="pb-3 px-4">Date</th>
-                  <th className="pb-3 px-4">Environment</th>
-                  <th className="pb-3 px-4">Physiology</th>
-                  <th className="pb-3 px-4">Vision & Skin</th>
-                  <th className="pb-3 px-4">Final Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {history.map((record) => (
-                  <tr key={record.id} className="border-b border-white/5 hover:bg-white/5 transition-colors text-sm">
-                    <td className="py-4 px-4">{new Date(record.created_at).toLocaleDateString()} {new Date(record.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                    <td className="py-4 px-4 text-orange-400">{record.env_score.toFixed(1)}</td>
-                    <td className="py-4 px-4 text-red-400">{record.phys_score.toFixed(1)}</td>
-                    <td className="py-4 px-4 text-accent">{((record.face_score || 0) + (record.skin_score || 0)).toFixed(1)}</td>
-                    <td className="py-4 px-4 font-bold text-white tracking-wider">{record.final_score.toFixed(1)} / 100</td>
-                  </tr>
+          {results.alerts.length > 0 && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 space-y-2">
+              <h4 className="font-bold text-red-400 flex items-center gap-2 text-sm">
+                <ShieldAlert className="w-4 h-4 shrink-0" /> Critical Alerts
+              </h4>
+              <ul className="space-y-1.5">
+                {results.alerts.map((alert, i) => (
+                  <li key={i} className="flex items-start gap-2 text-red-200/80 text-sm">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 shrink-0"></span>
+                    {alert}
+                  </li>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </ul>
+            </div>
+          )}
         </GlassCard>
-      )}
 
-      <div className="flex justify-center pt-8">
-        <Button variant="outline" onClick={() => router.push('/')}>
-          Return to Home
-        </Button>
+        {/* ── Row 3: Recommendations & Timeline ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <GlassCard>
+            <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+              <Droplets className="text-cyan-400 w-5 h-5 shrink-0" />
+              Recommendations
+            </h3>
+            <ul className="space-y-3">
+              {results.recommendations.map((rec, idx) => (
+                <motion.li
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 + (idx * 0.1) }}
+                  className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5"
+                >
+                  <div className="p-1.5 rounded-full bg-cyan-500/20 text-cyan-400 shrink-0">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  <span className="text-foreground/80 text-sm">{rec}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </GlassCard>
+
+          <GlassCard className="relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-24 h-24 bg-primary/10 rounded-full blur-[50px]"></div>
+            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 relative z-10">
+              <CloudLightning className="text-yellow-400 w-5 h-5 shrink-0" />
+              Action Plan
+            </h3>
+
+            <div className="relative border-l-2 border-white/10 ml-3 space-y-6 z-10">
+              {results.action_plan.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 + (idx * 0.2) }}
+                  className="relative pl-5"
+                >
+                  <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-background border-2 border-yellow-500"></div>
+                  <h4 className="font-bold text-yellow-400 text-xs tracking-wide uppercase">{item.time}</h4>
+                  <p className="text-foreground/70 mt-0.5 text-sm">{item.action}</p>
+                </motion.div>
+              ))}
+            </div>
+          </GlassCard>
+
+        </div>
+
+        {/* ── Row 4: Historical Progress ── */}
+        {history.length > 0 && (
+          <GlassCard>
+            <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+              <Activity className="text-green-400 w-5 h-5 shrink-0" />
+              Historical Trend
+            </h3>
+            <div className="overflow-x-auto -mx-6 px-6 pb-2">
+              <table className="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                  <tr className="border-b border-white/10 text-foreground/60 text-xs">
+                    <th className="pb-2 pr-4">Date</th>
+                    <th className="pb-2 pr-4">Env</th>
+                    <th className="pb-2 pr-4">Phys</th>
+                    <th className="pb-2 pr-4">Vision</th>
+                    <th className="pb-2">Final</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {history.map((record) => (
+                    <tr key={record.id} className="border-b border-white/5 hover:bg-white/5 transition-colors text-sm">
+                      <td className="py-3 pr-4 whitespace-nowrap">{new Date(record.created_at).toLocaleDateString()} {new Date(record.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                      <td className="py-3 pr-4 text-orange-400">{record.env_score.toFixed(1)}</td>
+                      <td className="py-3 pr-4 text-red-400">{record.phys_score.toFixed(1)}</td>
+                      <td className="py-3 pr-4 text-accent">{((record.face_score || 0) + (record.skin_score || 0)).toFixed(1)}</td>
+                      <td className="py-3 font-bold text-white">{record.final_score.toFixed(1)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </GlassCard>
+        )}
+
+        <div className="flex justify-center pt-4 pb-4">
+          <Button variant="outline" onClick={() => router.push('/')}>
+            Return to Home
+          </Button>
+        </div>
+
       </div>
-
     </div>
   )
 }

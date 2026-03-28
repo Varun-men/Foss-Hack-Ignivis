@@ -37,9 +37,9 @@ export function MetricGauge({
   const strokeColor = getColor ? getColor(value) : getRiskColor(value)
 
   return (
-    <div className={cn("relative flex items-center justify-center", className)} style={{ width: size, height: size }}>
+    <div className={cn("relative flex items-center justify-center overflow-hidden", className)} style={{ width: size, height: size, maxWidth: '100%' }}>
       {/* Background Track */}
-      <svg width={size} height={size} className="transform -rotate-90">
+      <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full transform -rotate-90">
         <circle
           cx={size / 2}
           cy={size / 2}
