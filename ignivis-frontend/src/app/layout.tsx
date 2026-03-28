@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
+import { ChatBot } from "@/components/ChatBot";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -25,6 +26,7 @@ export default function RootLayout({
         <main className="flex-1 flex flex-col">
           {children}
         </main>
+        <ChatBot />
       </body>
     </html>
   );
