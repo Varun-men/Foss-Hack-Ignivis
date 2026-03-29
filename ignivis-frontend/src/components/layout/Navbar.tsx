@@ -46,7 +46,7 @@ export function Navbar() {
           className="flex items-center gap-2 cursor-pointer group shrink-0"
           onClick={() => router.push('/')}
         >
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-orange-500 shadow-[0_0_15px_rgba(255,69,0,0.5)] group-hover:scale-110 transition-transform"></div>
+          <img src="/ignivis-logo.svg" alt="Ignivis Logo" className="w-10 h-10 group-hover:scale-110 transition-transform drop-shadow-[0_0_10px_rgba(255,69,0,0.5)]" />
           <span className="text-xl md:text-2xl font-black tracking-widest text-white">IGNIVIS</span>
         </div>
 
