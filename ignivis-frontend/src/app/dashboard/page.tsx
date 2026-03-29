@@ -5,6 +5,8 @@ import { motion } from "framer-motion"
 import { MetricGauge } from "@/components/ui/MetricGauge"
 import { GlassCard } from "@/components/ui/GlassCard"
 import { Button } from "@/components/ui/Button"
+import { NotificationPrompt } from "@/components/NotificationPrompt"
+import { useNotifications } from "@/hooks/useNotifications"
 import { useRouter } from "next/navigation"
 import {
   Activity,
@@ -33,6 +35,7 @@ interface FinalResponse {
 
 export default function DashboardPage() {
   const router = useRouter()
+  const { recordScan } = useNotifications()
   // @ts-ignore
   const [params, setParams] = useState<any>(null)
 
@@ -118,6 +121,9 @@ export default function DashboardPage() {
         } catch (e) {
           console.error("History fetch error", e)
         }
+
+        // Record this scan for the notification system
+        recordScan()
 
       } catch (err) {
         console.error(err)
@@ -363,6 +369,9 @@ export default function DashboardPage() {
             Return to Home
           </Button>
         </div>
+
+        {/* Notification Permission Prompt — shows once after first scan */}
+        <NotificationPrompt />
 
       </div>
     </div>

@@ -275,7 +275,7 @@ export function ChatBot() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white tracking-wide">
-                    Ignivis Assistant
+                    IGNIVIS Assistant
                   </h3>
                   <p className="text-[11px] text-white/40 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
@@ -320,11 +320,10 @@ export function ChatBot() {
                 >
                   {/* Avatar */}
                   <div
-                    className={`w-7 h-7 rounded-full shrink-0 flex items-center justify-center mt-0.5 ${
-                      msg.type === "bot"
+                    className={`w-7 h-7 rounded-full shrink-0 flex items-center justify-center mt-0.5 ${msg.type === "bot"
                         ? "bg-gradient-to-br from-[var(--color-primary)]/20 to-orange-500/20 border border-[var(--color-primary)]/30"
                         : "bg-gradient-to-br from-[var(--color-accent)]/20 to-purple-500/20 border border-[var(--color-accent)]/30"
-                    }`}
+                      }`}
                   >
                     {msg.type === "bot" ? (
                       <Bot className="w-3.5 h-3.5 text-[var(--color-primary)]" />
@@ -335,11 +334,10 @@ export function ChatBot() {
 
                   {/* Bubble */}
                   <div
-                    className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
-                      msg.type === "bot"
+                    className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${msg.type === "bot"
                         ? "bg-white/[0.06] text-white/80 rounded-tl-sm border border-white/[0.06]"
                         : "bg-gradient-to-r from-[var(--color-primary)]/15 to-orange-500/10 text-white/90 rounded-tr-sm border border-[var(--color-primary)]/15"
-                    }`}
+                      }`}
                   >
                     {msg.text}
                   </div>
@@ -378,11 +376,10 @@ export function ChatBot() {
                   <button
                     key={cat.name}
                     onClick={() => setActiveCategory(idx)}
-                    className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
-                      activeCategory === idx
+                    className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${activeCategory === idx
                         ? "bg-[var(--color-primary)]/20 text-[var(--color-primary)] border border-[var(--color-primary)]/30"
                         : "text-white/40 hover:text-white/70 hover:bg-white/5 border border-transparent"
-                    }`}
+                      }`}
                   >
                     {cat.emoji} {cat.name}
                   </button>
