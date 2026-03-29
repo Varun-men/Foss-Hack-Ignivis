@@ -41,7 +41,6 @@ export function Navbar() {
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
-        {/* Logo */}
         <div
           className="flex items-center gap-2 cursor-pointer group shrink-0"
           onClick={() => router.push('/')}
@@ -50,7 +49,6 @@ export function Navbar() {
           <span className="text-xl md:text-2xl font-black tracking-widest text-white">IGNIVIS</span>
         </div>
 
-        {/* Auth Buttons - Desktop */}
         <div className="hidden md:flex items-center gap-4">
           {isAuthenticated ? (
             <>
@@ -73,7 +71,6 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Toggle & Login Icon */}
         <div className="md:hidden flex items-center gap-2">
           {!isAuthenticated && (
             <Button
@@ -95,7 +92,6 @@ export function Navbar() {
 
       </div>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div

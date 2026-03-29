@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Bell, BellOff, X, Check, ShieldCheck } from "lucide-react"
+import { Bell, BellOff, X, ShieldCheck } from "lucide-react"
 import { useNotifications } from "@/hooks/useNotifications"
 
 export function NotificationPrompt() {
@@ -18,12 +18,6 @@ export function NotificationPrompt() {
   const [isVisible, setIsVisible] = useState(true)
   const [status, setStatus] = useState<"idle" | "enabling" | "success" | "denied">("idle")
 
-  // Don't show if:
-  // - Not supported
-  // - Already enabled
-  // - Already prompted and dismissed
-  // - Browser explicitly denied
-  // - User dismissed this session
   if (!isSupported || isEnabled || hasBeenPrompted || permission === "denied" || !isVisible) {
     return null
   }
@@ -56,11 +50,9 @@ export function NotificationPrompt() {
           className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md"
         >
           <div className="relative rounded-2xl overflow-hidden">
-            {/* Animated gradient border */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500 via-red-500 to-purple-500 p-[1px] animate-pulse" />
 
             <div className="relative glass rounded-2xl p-5 m-[1px]">
-              {/* Close button */}
               <button
                 onClick={handleDismiss}
                 className="absolute top-3 right-3 text-white/40 hover:text-white/80 transition-colors p-1 rounded-full hover:bg-white/10"
@@ -71,7 +63,6 @@ export function NotificationPrompt() {
 
               {status === "idle" && (
                 <div className="flex items-start gap-4">
-                  {/* Animated bell icon */}
                   <div className="shrink-0 relative">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
                       <motion.div
@@ -87,7 +78,6 @@ export function NotificationPrompt() {
                         <Bell className="w-6 h-6 text-orange-400" />
                       </motion.div>
                     </div>
-                    {/* Pulse ring */}
                     <div className="absolute inset-0 rounded-full bg-orange-500/20 animate-ping" />
                   </div>
 
