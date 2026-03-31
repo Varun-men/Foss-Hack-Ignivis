@@ -5,6 +5,8 @@ import { motion } from "framer-motion"
 import { MetricGauge } from "@/components/ui/MetricGauge"
 import { GlassCard } from "@/components/ui/GlassCard"
 import { Button } from "@/components/ui/Button"
+import { NotificationPrompt } from "@/components/NotificationPrompt"
+import { useNotifications } from "@/hooks/useNotifications"
 import { useRouter } from "next/navigation"
 import {
   Activity,
@@ -20,7 +22,7 @@ import {
 } from "lucide-react"
 import { API_URL } from "@/lib/constants"
 
-// Expected backend response structure
+
 interface FinalResponse {
   final_score: number
   risk_category: string
@@ -33,13 +35,14 @@ interface FinalResponse {
 
 export default function DashboardPage() {
   const router = useRouter()
-  // @ts-ignore
+  const { recordScan } = useNotifications()
+
   const [params, setParams] = useState<any>(null)
 
   useEffect(() => {
     setParams(new URLSearchParams(window.location.search))
 
-    // Auth Protection
+
     if (!localStorage.getItem("ignivis_token")) {
       router.push("/login")
     }
@@ -76,7 +79,7 @@ export default function DashboardPage() {
           skin: data.skin
         })
 
-        // Fetch dynamic AI reasoning based on raw scores
+
         const aiRes = await fetch(`${API_URL}/api/ai-insights`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -105,7 +108,7 @@ export default function DashboardPage() {
           action_plan: aiData.action_plan
         })
 
-        // Fetch User History
+
         try {
           const token = localStorage.getItem("ignivis_token");
           const histRes = await fetch(`${API_URL}/api/history`, {
@@ -119,6 +122,9 @@ export default function DashboardPage() {
           console.error("History fetch error", e)
         }
 
+
+        recordScan()
+
       } catch (err) {
         console.error(err)
         setError("Failed to load Intelligence Engine results. Please run analysis again.")
@@ -127,7 +133,7 @@ export default function DashboardPage() {
       }
     }
 
-    // Minimum delay to establish connection effect
+
     setTimeout(() => {
       loadAnalysis()
     }, 1500)
@@ -141,7 +147,7 @@ export default function DashboardPage() {
           <BrainCircuit className="w-12 h-12 text-primary animate-pulse" />
         </div>
         <h2 className="text-2xl font-bold tracking-widest text-white/90">ANALYZING YOUR CONDITION...</h2>
-        <p className="text-foreground/50 mt-2 max-w-sm">Generating AI Health Insights using Gemini pro...</p>
+        <p className="text-foreground/50 mt-2 max-w-sm">Generating AI Health Insights </p>
       </div>
     )
   }
@@ -170,10 +176,10 @@ export default function DashboardPage() {
     <div className="min-h-screen pt-24 pb-12 px-4 md:px-6 overflow-x-hidden">
       <div className="max-w-6xl mx-auto space-y-6 w-full min-w-0">
 
-        {/* ── Row 1: Gauge + Sub-Scores ── */}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-          {/* Compact Gauge Card */}
+
           <GlassCard className="flex flex-col items-center justify-center py-6 relative">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
             <h2 className="text-[10px] font-semibold text-foreground/60 uppercase tracking-widest mb-3">Risk Index</h2>
@@ -195,48 +201,48 @@ export default function DashboardPage() {
             </div>
           </GlassCard>
 
-          {/* Environment */}
+
           <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
             <MapPin className="text-orange-500 w-6 h-6 mb-2" />
             <div className={`text-3xl font-bold ${scores.env < 30 ? "text-green-400" : scores.env < 60 ? "text-yellow-400" : "text-red-400"}`}>
-              {Math.round(scores.env)}
+              {Number(scores.env).toFixed(1)}
             </div>
             <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Environment</div>
             <div className="mt-2 text-[10px] text-foreground/40 leading-relaxed">Heat index from Weather API</div>
           </GlassCard>
 
-          {/* Physiological */}
+
           <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
             <HeartPulse className="text-red-500 w-6 h-6 mb-2" />
             <div className={`text-3xl font-bold ${scores.phys < 30 ? "text-green-400" : scores.phys < 60 ? "text-yellow-400" : "text-red-400"}`}>
-              {Math.round(scores.phys)}
+              {Number(scores.phys).toFixed(1)}
             </div>
             <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Physiology</div>
             <div className="mt-2 text-[10px] text-foreground/40 leading-relaxed">Heart rate &amp; body temp</div>
           </GlassCard>
 
-          {/* Vision & Skin — with breakdown */}
+
           <GlassCard className="p-4 flex flex-col items-center text-center justify-center">
             <ScanFace className="text-accent w-6 h-6 mb-2" />
             <div className={`text-3xl font-bold ${scores.face + scores.skin < 30 ? "text-green-400" : scores.face + scores.skin < 60 ? "text-yellow-400" : "text-red-400"}`}>
-              {Math.round(scores.face + scores.skin)}
+              {(scores.face + scores.skin).toFixed(1)}
             </div>
             <div className="text-[10px] text-foreground/50 uppercase mt-1 tracking-widest font-semibold">Vision &amp; Skin</div>
 
             <div className="mt-2 w-full grid grid-cols-2 gap-1 text-[10px] text-foreground/60 border-t border-white/5 pt-2">
               <div className="flex flex-col">
                 <span className="uppercase opacity-70">Fatigue</span>
-                <span className={`font-bold text-sm ${scores.face < 15 ? "text-green-400" : scores.face < 30 ? "text-yellow-400" : "text-red-400"}`}>{Math.round(scores.face)}</span>
+                <span className={`font-bold text-sm ${scores.face < 15 ? "text-green-400" : scores.face < 30 ? "text-yellow-400" : "text-red-400"}`}>{Number(scores.face).toFixed(1)}</span>
               </div>
               <div className="flex flex-col border-l border-white/5 pl-1">
                 <span className="uppercase opacity-70">Redness</span>
-                <span className={`font-bold text-sm ${scores.skin < 15 ? "text-green-400" : scores.skin < 30 ? "text-yellow-400" : "text-red-400"}`}>{Math.round(scores.skin)}</span>
+                <span className={`font-bold text-sm ${scores.skin < 15 ? "text-green-400" : scores.skin < 30 ? "text-yellow-400" : "text-red-400"}`}>{Number(scores.skin).toFixed(1)}</span>
               </div>
             </div>
           </GlassCard>
         </div>
 
-        {/* ── Row 2: AI Summary ── */}
+
         <GlassCard>
           <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
             <BrainCircuit className="text-purple-500 w-5 h-5 shrink-0" />
@@ -272,7 +278,7 @@ export default function DashboardPage() {
           )}
         </GlassCard>
 
-        {/* ── Row 3: Recommendations & Timeline ── */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           <GlassCard>
@@ -324,7 +330,7 @@ export default function DashboardPage() {
 
         </div>
 
-        {/* ── Row 4: Historical Progress ── */}
+
         {history.length > 0 && (
           <GlassCard>
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
@@ -363,6 +369,9 @@ export default function DashboardPage() {
             Return to Home
           </Button>
         </div>
+
+
+        <NotificationPrompt />
 
       </div>
     </div>
